@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Potens Wealth | Planejamento patrimonial com linguagem clara</title>
+<meta name="description" content="Potens Wealth: planejamento financeiro e patrimonial para profissionais de alta renda e famílias. O patrimônio é a ferramenta. A vida é o objetivo.">
+<meta property="og:title" content="Potens Wealth">
+<meta property="og:description" content="O patrimônio é a ferramenta. A vida é o objetivo.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="img/lavanda-entardecer.jpg">
+<meta name="theme-color" content="#420e81">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23420e81'/%3E%3Cpath d='M34 76V28h18a15 15 0 0 1 0 30H34' stroke='white' stroke-width='12' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='52' cy='43' r='5.5' fill='%23b59bff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
+<script type="importmap">{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js"}}</script>
+<style>
+:root{
+  /* ink / surface */
+  --ink-900:#0e0521; --ink-800:#170838; --ink-700:#220b52; --ink-600:#2f0e6b;
+  --surface-0:#fbf9ff; --surface-1:#f3eefc; --surface-2:#e8e0f7; --surface-3:#d9cdf0;
+  /* brand */
+  --brand:#420e81; --brand-soft:#5d27a8; --brand-deep:#2c0a5a; --brand-wash:rgba(66,14,129,.10);
+  --lilac:#b59bff; --lilac-soft:#dccfff; --lilac-wash:rgba(181,155,255,.16);
+  /* single accent */
+  --accent:#dff26b; --accent-deep:#bcd43a; --accent-wash:rgba(223,242,107,.14);
+  /* colour-swap palette (drag + hover interactions) */
+  --sw-1:#420e81; --sw-2:#2a1478; --sw-3:#5e1068; --sw-4:#0f3a6e; --sw-5:#6a1856; --sw-6:#1f0a5c;
+  /* text on dark */
+  --text-hi:#f7f3ff; --text-body:rgba(247,243,255,.84); --text-mute:rgba(247,243,255,.62); --text-faint:rgba(247,243,255,.44);
+  /* text on light */
+  --ink-hi:#1a0a38; --ink-body:rgba(26,10,56,.78); --ink-mute:rgba(26,10,56,.58);
+  /* hairlines */
+  --line-faint:rgba(247,243,255,.08); --line:rgba(247,243,255,.16); --line-strong:rgba(247,243,255,.3); --line-ink:rgba(26,10,56,.14);
+  /* type scale */
+  --text-xs:clamp(.72rem,.70rem + .10vw,.78rem);
+  --text-sm:clamp(.86rem,.83rem + .15vw,.94rem);
+  --text-base:clamp(1rem,.96rem + .20vw,1.1rem);
+  --text-lg:clamp(1.15rem,1.08rem + .38vw,1.4rem);
+  --text-xl:clamp(1.45rem,1.28rem + .70vw,1.9rem);
+  --text-2xl:clamp(1.9rem,1.5rem + 1.5vw,2.8rem);
+  --text-3xl:clamp(2.4rem,1.8rem + 2.7vw,4.2rem);
+  --text-4xl:clamp(2.6rem,1.6rem + 4.2vw,5.4rem);
+  --track-display:-.035em; --track-tight:-.02em; --track-wide:.1em; --track-caps:.16em;
+  --leading-display:1.02; --leading-tight:1.12; --leading-body:1.68;
+  /* spacing */
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:24px; --sp-6:32px; --sp-7:48px; --sp-8:64px; --sp-9:96px;
+  --section-y:clamp(80px,10vw,160px); --gutter:clamp(20px,5vw,56px); --measure:62ch; --wrap:1360px; --nav-h:72px;
+  /* radii: one family */
+  --r-sm:10px; --r-md:18px; --r-lg:28px; --r-pill:999px;
+  /* elevation (tinted to brand) */
+  --e-1:0 1px 2px rgba(34,11,82,.16);
+  --e-2:0 2px 4px rgba(34,11,82,.14),0 6px 16px rgba(34,11,82,.12);
+  --e-3:0 6px 12px rgba(34,11,82,.16),0 18px 40px rgba(34,11,82,.2);
+  --e-4:0 12px 24px rgba(14,5,33,.28),0 40px 90px rgba(14,5,33,.42);
+  --e-glow:0 0 0 1px var(--lilac-wash),0 10px 50px rgba(181,155,255,.22);
+  --e-inset:inset 0 1px 0 rgba(255,255,255,.14);
+  /* motion */
+  --ease-out:cubic-bezier(.22,.7,.2,1); --ease-in-out:cubic-bezier(.65,.02,.3,1);
+  --ease-spring:cubic-bezier(.34,1.56,.64,1); --ease-glide:cubic-bezier(.16,1,.3,1);
+  --dur-1:140ms; --dur-2:260ms; --dur-3:480ms; --dur-4:760ms; --dur-5:1200ms;
+  /* z */
+  --z-base:1; --z-sticky:100; --z-overlay:500; --z-grain:999;
+  --swap:var(--sw-1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--ink-800);color:var(--text-body);font-family:'Instrument Sans',system-ui,sans-serif;font-size:var(--text-base);line-height:var(--leading-body);overflow-x:hidden;text-wrap:pretty}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;letter-spacing:var(--track-display);line-height:var(--leading-display);color:var(--text-hi);text-wrap:balance}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:var(--r-sm)}
+.wrap{width:min(100% - var(--gutter)*2,var(--wrap));margin-inline:auto}
+.eyebrow{font-size:var(--text-xs);letter-spacing:var(--track-caps);text-transform:uppercase;color:var(--lilac);font-weight:500}
+.light .eyebrow{color:var(--brand-soft)}
+.grain{position:fixed;inset:0;z-index:var(--z-grain);pointer-events:none;opacity:.05;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:var(--sp-3);height:52px;padding:0 var(--sp-6);border-radius:var(--r-pill);font-weight:500;font-size:var(--text-sm);white-space:nowrap;transition:transform var(--dur-2) var(--ease-spring),box-shadow var(--dur-2) var(--ease-out),background var(--dur-2) var(--ease-out)}
+.btn-accent{background:var(--accent);color:var(--ink-900);box-shadow:var(--e-2)}
+.btn-accent:hover{transform:translateY(-3px);box-shadow:var(--e-3);background:var(--accent-deep)}
+.btn-accent:active{transform:translateY(0) scale(.98)}
+.btn svg{width:18px;height:18px;transition:transform var(--dur-2) var(--ease-spring)}
+.btn:hover svg{transform:translateX(4px)}
+
+/* nav */
+.nav{position:fixed;inset:0 0 auto 0;height:var(--nav-h);z-index:var(--z-sticky);display:flex;align-items:center;transition:background var(--dur-3) var(--ease-out),backdrop-filter var(--dur-3) var(--ease-out),box-shadow var(--dur-3) var(--ease-out)}
+.nav.solid{background:rgba(23,8,56,.72);backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%);box-shadow:0 1px 0 var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-6)}
+.nav img{height:42px;width:auto}
+.nav ul{display:flex;gap:var(--sp-6);list-style:none}
+.nav ul a{position:relative;font-size:var(--text-sm);color:var(--text-body);padding:var(--sp-2) 0}
+.nav ul a::after{content:'';position:absolute;left:0;bottom:2px;height:1px;width:100%;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform var(--dur-3) var(--ease-out)}
+.nav ul a:hover::after{transform:scaleX(1)}
+.nav .btn{height:42px;padding:0 var(--sp-5)}
+
+/* hero */
+.hero{position:relative;min-height:100dvh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;background:var(--ink-800)}
+.hero #gl{position:absolute;inset:0;cursor:grab;touch-action:pan-y;z-index:0}
+.hero #gl:active{cursor:grabbing}
+.hero #gl canvas{display:block;width:100%;height:100%}
+.hero.nogl #gl{background:radial-gradient(60% 70% at 72% 40%,var(--brand-soft),transparent 70%),linear-gradient(160deg,var(--ink-700),var(--brand))}
+.hero-in{position:relative;z-index:var(--z-base);padding-top:calc(var(--nav-h) + var(--sp-7));pointer-events:none}
+.hero-in>*{pointer-events:auto}
+.hero h1{font-size:clamp(2.5rem,1.2rem + 4.6vw,5.3rem);max-width:15ch;margin-bottom:var(--sp-5)}
+.hero h1 span{display:block;color:var(--accent)}
+.hero-sub{max-width:44ch;font-size:var(--text-lg);color:var(--text-body);margin-bottom:var(--sp-6);line-height:1.5}
+.hero-cta{display:flex;align-items:center;gap:var(--sp-5);flex-wrap:wrap;margin-bottom:var(--sp-7)}
+.drag-hint{font-size:var(--text-sm);color:var(--text-mute);display:inline-flex;align-items:center;gap:var(--sp-2)}
+.legal{position:relative;z-index:var(--z-base);border-top:1px solid var(--line);background:rgba(14,5,33,.42);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding:var(--sp-5) 0;pointer-events:auto}
+.legal p{font-size:var(--text-sm);color:var(--text-body);max-width:120ch;line-height:1.55}
+.legal p+p{margin-top:var(--sp-2)}
+.legal a{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+
+/* shared section */
+.sec{position:relative;padding-block:var(--section-y)}
+.sec h2{font-size:var(--text-3xl)}
+.sec .lead{font-size:var(--text-lg);max-width:var(--measure);margin-top:var(--sp-5);color:var(--text-body)}
+.light{background:var(--surface-1);color:var(--ink-body)}
+.light h2,.light h3{color:var(--ink-hi)}
+.light .lead{color:var(--ink-body)}
+[data-reveal]{opacity:0;transform:translateY(26px);transition:opacity var(--dur-4) var(--ease-glide) var(--d,0ms),transform var(--dur-4) var(--ease-glide) var(--d,0ms)}
+[data-reveal].in{opacity:1;transform:none}
+
+/* belt: drag, infinite loop, background colour swaps */
+.belt{background:var(--swap);transition:background-color var(--dur-5) var(--ease-in-out);overflow:hidden}
+.belt-head{display:flex;justify-content:space-between;align-items:flex-end;gap:var(--sp-6);flex-wrap:wrap}
+.belt-stage{position:relative;height:clamp(440px,52vw,600px);margin-top:var(--sp-7);perspective:1500px;cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.belt-stage.drag{cursor:grabbing}
+.slide{position:absolute;left:50%;top:0;width:clamp(240px,30vw,400px);height:100%;margin-left:calc(clamp(240px,30vw,400px)/-2);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--e-4);will-change:transform,opacity;background:var(--ink-700)}
+.slide img{width:100%;height:100%;object-fit:cover;pointer-events:none;filter:saturate(.9) contrast(1.04)}
+.slide::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(14,5,33,.82));pointer-events:none}
+.slide figcaption{position:absolute;left:var(--sp-5);right:var(--sp-5);bottom:var(--sp-5);z-index:var(--z-base);font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:var(--text-xl);color:var(--text-hi);line-height:1.1;letter-spacing:var(--track-tight)}
+.belt-cap{display:grid;grid-template-columns:1fr auto;gap:var(--sp-6);align-items:end;margin-top:var(--sp-7)}
+.belt-cap p{font-size:var(--text-xl);font-family:'Bricolage Grotesque',sans-serif;font-weight:600;color:var(--text-hi);letter-spacing:var(--track-tight);line-height:1.2;max-width:30ch;min-height:2.4em;transition:opacity var(--dur-3) var(--ease-out)}
+.belt-nav{display:flex;gap:var(--sp-3)}
+.belt-nav button{width:44px;height:6px;border-radius:var(--r-pill);background:var(--line);transition:background var(--dur-3) var(--ease-out),width var(--dur-3) var(--ease-spring)}
+.belt-nav button[aria-current="true"]{background:var(--accent);width:72px}
+
+/* strategies bento */
+.esp .head{max-width:24ch}
+.bento{display:grid;grid-template-columns:1.25fr 1fr 1fr;grid-template-rows:minmax(260px,1fr) minmax(260px,1fr);gap:var(--sp-4);margin-top:var(--sp-8)}
+.cell{position:relative;border-radius:var(--r-lg);overflow:hidden;isolation:isolate;box-shadow:var(--e-2);transition:transform var(--dur-3) var(--ease-glide),box-shadow var(--dur-3) var(--ease-out);display:flex;flex-direction:column;justify-content:flex-end;padding:var(--sp-6);color:var(--text-hi);min-height:260px}
+.cell:hover{transform:translateY(-6px);box-shadow:var(--e-4)}
+.cell img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform var(--dur-5) var(--ease-glide)}
+.cell:hover img{transform:scale(1.07)}
+.cell::before{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(47,14,107,.12) 0%,rgba(23,8,56,.9) 100%);transition:opacity var(--dur-3) var(--ease-out)}
+.light .cell h3,.cell h3{color:var(--text-hi);font-size:var(--text-xl);margin-bottom:var(--sp-2);line-height:1.1}
+.cell p{font-size:var(--text-sm);color:var(--text-body);max-width:34ch}
+.cell.big{grid-row:span 2;padding:var(--sp-7)}
+.cell.big h3{font-size:var(--text-2xl)}
+.cell.wide{grid-column:span 2}
+.chips{display:flex;flex-wrap:wrap;gap:var(--sp-2);margin-top:var(--sp-5)}
+.chip{padding:var(--sp-2) var(--sp-4);border-radius:var(--r-pill);font-size:var(--text-sm);background:rgba(255,255,255,.14);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:var(--e-inset);border:1px solid var(--line);color:var(--text-hi);transition:background var(--dur-2) var(--ease-out),transform var(--dur-2) var(--ease-spring)}
+.chip:hover{background:var(--accent);color:var(--ink-900);transform:translateY(-2px)}
+
+/* method: hover/auto accordion strips */
+.met{background:var(--ink-800)}
+.strips{display:flex;gap:var(--sp-3);height:clamp(440px,48vw,560px);margin-top:var(--sp-8)}
+.strip{position:relative;flex:1;border-radius:var(--r-lg);overflow:hidden;cursor:pointer;transition:flex var(--dur-4) var(--ease-glide);isolation:isolate;text-align:left;box-shadow:var(--e-3);display:flex;flex-direction:column;justify-content:flex-end;padding:var(--sp-6)}
+.strip.on{flex:3.6}
+.strip img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform var(--dur-5) var(--ease-glide)}
+.strip.on img{transform:scale(1.06)}
+.strip::before{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(47,14,107,.25),rgba(23,8,56,.9));transition:background var(--dur-4) var(--ease-out)}
+.strip:not(.on)::before{background:linear-gradient(180deg,rgba(66,14,129,.5),rgba(23,8,56,.92))}
+.strip:not(.on) h3{font-size:var(--text-lg)}
+.strip h3{font-size:var(--text-2xl);color:var(--text-hi);writing-mode:horizontal-tb;transition:transform var(--dur-3) var(--ease-out)}
+.strip p{max-height:0;opacity:0;overflow:hidden;max-width:36ch;font-size:var(--text-base);color:var(--text-body);transition:max-height var(--dur-4) var(--ease-glide),opacity var(--dur-3) var(--ease-out) 120ms}
+.strip.on p{max-height:200px;opacity:1;margin-top:var(--sp-3)}
+
+/* compare slider (drag, oscillates when released) */
+.cmp{background:var(--surface-1)}
+.cmp-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:var(--sp-8);align-items:center}
+.cmp-box{position:relative;border-radius:var(--r-lg);overflow:hidden;aspect-ratio:4/3;box-shadow:var(--e-4);cursor:ew-resize;touch-action:pan-y;user-select:none;-webkit-user-select:none;isolation:isolate}
+.layer{position:absolute;inset:0}
+.layer img{width:100%;height:100%;object-fit:cover;pointer-events:none}
+.layer.order::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(66,14,129,.5),rgba(93,39,168,.12))}
+.layer.chaos{clip-path:inset(0 calc(100% - var(--pos,50%)) 0 0)}
+.layer.chaos img{filter:grayscale(1) contrast(.9) brightness(.7) blur(1.5px)}
+.layer.chaos::after{content:'';position:absolute;inset:0;background:rgba(23,8,56,.45)}
+.tag{position:absolute;padding:var(--sp-2) var(--sp-4);border-radius:var(--r-pill);font-size:var(--text-sm);font-weight:500;color:var(--text-hi);background:rgba(23,8,56,.6);border:1px solid var(--line);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:3;white-space:nowrap}
+.chaos .tag{background:rgba(30,30,40,.7);border-color:var(--line-strong)}
+.order .tag{background:rgba(255,255,255,.16);border-color:var(--lilac)}
+.cmp-label{position:absolute;bottom:var(--sp-5);z-index:4;font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:var(--text-lg);color:var(--text-hi);text-shadow:0 2px 14px rgba(14,5,33,.6)}
+.cmp-label.l{left:var(--sp-5)}.cmp-label.r{right:var(--sp-5);text-align:right}
+.handle{position:absolute;top:0;bottom:0;left:var(--pos,50%);width:2px;background:var(--accent);z-index:5;transform:translateX(-1px)}
+.handle i{position:absolute;top:50%;left:50%;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%;background:var(--accent);box-shadow:var(--e-3);display:grid;place-items:center;color:var(--ink-900)}
+.handle svg{width:22px;height:22px}
+
+/* values: hover or auto, colour swap */
+.val{background:var(--swap);transition:background-color var(--dur-5) var(--ease-in-out)}
+.val-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:var(--sp-8);align-items:center}
+.val ul{list-style:none}
+.val li button{display:block;width:100%;text-align:left;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:var(--text-4xl);letter-spacing:var(--track-display);line-height:1.08;color:var(--text-faint);transition:color var(--dur-3) var(--ease-out),transform var(--dur-4) var(--ease-glide);padding:var(--sp-1) 0}
+.val li.on button{color:var(--text-hi);transform:translateX(var(--sp-5))}
+.val li button:hover{color:var(--text-body)}
+.val-card{position:relative;border-radius:var(--r-lg);padding:var(--sp-7);background:rgba(255,255,255,.08);border:1px solid var(--line);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);box-shadow:var(--e-glow),var(--e-inset)}
+.val-card h3{font-size:var(--text-2xl);color:var(--accent);margin-bottom:var(--sp-4)}
+.val-card p{font-size:var(--text-lg);color:var(--text-hi);line-height:1.5;min-height:6.5em}
+
+/* about */
+.about{background:var(--surface-0)}
+.about-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:var(--sp-9);align-items:start}
+.numeral{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(9rem,6rem + 14vw,19rem);line-height:.8;letter-spacing:var(--track-display);color:var(--brand);font-variant-numeric:tabular-nums}
+.numeral small{display:block;font-size:var(--text-xl);letter-spacing:var(--track-tight);color:var(--ink-hi);margin-top:var(--sp-4);line-height:1.15;max-width:14ch}
+.portrait{position:relative;margin:0;border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--e-4);isolation:isolate;aspect-ratio:1181/1331;max-width:560px}
+.portrait img{width:100%;height:100%;object-fit:cover;transition:transform var(--dur-5) var(--ease-glide)}
+.portrait:hover img{transform:scale(1.04)}
+.portrait::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(44,10,90,.7));pointer-events:none}
+.portrait .badge{position:absolute;left:var(--sp-5);bottom:var(--sp-5);z-index:var(--z-base);display:flex;align-items:center;gap:var(--sp-4);padding:var(--sp-3) var(--sp-5) var(--sp-3) var(--sp-4);border-radius:var(--r-pill);background:rgba(255,255,255,.16);border:1px solid var(--line-strong);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);box-shadow:var(--e-inset),var(--e-2);color:var(--text-hi)}
+.portrait .badge b{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:var(--text-3xl);line-height:.9;letter-spacing:var(--track-display);color:var(--accent)}
+.portrait .badge span{font-size:var(--text-sm);line-height:1.25;max-width:12ch}
+.about h2{font-size:var(--text-2xl);max-width:20ch}
+.pill-list{list-style:none;display:grid;gap:var(--sp-4);margin-top:var(--sp-7)}
+.pill-list li{padding:var(--sp-5) var(--sp-6);border-radius:var(--r-md);background:var(--surface-1);box-shadow:var(--e-1),var(--e-inset);transition:transform var(--dur-3) var(--ease-glide),box-shadow var(--dur-3) var(--ease-out),background var(--dur-3) var(--ease-out)}
+.pill-list li:hover{transform:translateX(8px);box-shadow:var(--e-3);background:var(--lilac-soft)}
+.pill-list b{display:block;font-family:'Bricolage Grotesque',sans-serif;font-size:var(--text-lg);color:var(--ink-hi);letter-spacing:var(--track-tight);margin-bottom:var(--sp-1)}
+.who{display:flex;flex-wrap:wrap;gap:var(--sp-2);margin-top:var(--sp-6)}
+.who span{padding:var(--sp-2) var(--sp-4);border-radius:var(--r-pill);border:1px solid var(--line-ink);font-size:var(--text-sm);color:var(--ink-body)}
+
+/* contact */
+.cta{background:var(--brand);overflow:hidden;isolation:isolate}
+.cta::before{content:'';position:absolute;z-index:-1;width:70vw;height:70vw;right:-20vw;top:-30vw;border-radius:50%;background:radial-gradient(circle,var(--brand-soft),transparent 66%);animation:drift 18s var(--ease-in-out) infinite alternate}
+.cta::after{content:'';position:absolute;z-index:-1;width:50vw;height:50vw;left:-15vw;bottom:-28vw;border-radius:50%;background:radial-gradient(circle,var(--lilac-wash),transparent 70%);animation:drift 22s var(--ease-in-out) infinite alternate-reverse}
+.cta h2{font-size:var(--text-4xl);max-width:16ch}
+.cta .row{display:flex;gap:var(--sp-6);align-items:center;flex-wrap:wrap;margin-top:var(--sp-7)}
+.cta .mail{font-size:var(--text-lg);color:var(--text-hi);border-bottom:1px solid var(--line-strong);padding-bottom:2px;transition:border-color var(--dur-2) var(--ease-out),color var(--dur-2) var(--ease-out)}
+.cta .mail:hover{color:var(--accent);border-color:var(--accent)}
+footer{background:var(--ink-900);padding:var(--sp-8) 0 var(--sp-7);color:var(--text-mute);font-size:var(--text-sm)}
+footer .wrap{display:grid;grid-template-columns:1fr auto;gap:var(--sp-6);align-items:end}
+footer img{height:38px;width:auto;margin-bottom:var(--sp-4)}
+footer a{color:var(--lilac)}
+footer a:hover{color:var(--accent)}
+footer p+p{margin-top:var(--sp-1)}
+
+@keyframes drift{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(-6vw,4vw,0) scale(1.12)}}
+@keyframes bob{0%,100%{transform:translateX(0)}50%{transform:translateX(7px)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes sweep{from{transform:translateX(-120%)}to{transform:translateX(120%)}}
+@keyframes pulse{0%,100%{opacity:.55}50%{opacity:1}}
+.hero-in h1,.hero-sub,.hero-cta{animation:fadeUp var(--dur-5) var(--ease-glide) both}
+.hero-sub{animation-delay:140ms}.hero-cta{animation-delay:260ms}
+.drag-hint svg{width:22px;animation:bob 2.4s var(--ease-in-out) infinite}
+.btn-accent{position:relative;overflow:hidden}
+.btn-accent::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);transform:translateX(-120%);animation:sweep 4.5s var(--ease-in-out) 1.8s infinite}
+.cmp .handle i{animation:pulse 2.4s var(--ease-in-out) infinite}
+
+@media (max-width:980px){
+  .nav ul{display:none}
+  .bento{grid-template-columns:1fr 1fr}
+  .cell.big{grid-column:span 2;grid-row:auto;min-height:420px}
+  .cell.wide{grid-column:span 2}
+  .cmp-grid,.val-grid,.about-grid{grid-template-columns:1fr;gap:var(--sp-7)}
+  .strips{flex-direction:column;height:auto}
+  .strip{flex:none;height:96px;padding:var(--sp-4) var(--sp-5)}
+  .strip.on{height:360px}
+  .belt-cap{grid-template-columns:1fr}
+}
+@media (max-width:620px){
+  .hero h1{font-size:clamp(2.3rem,10.5vw,3.2rem)}
+  .bento{grid-template-columns:1fr}
+  .cell.big,.cell.wide{grid-column:auto}
+  footer .wrap{grid-template-columns:1fr}
+  .drag-hint{display:none}
+  .nav .btn{padding:0 var(--sp-4)}
+  .tag{font-size:var(--text-xs);padding:var(--sp-1) var(--sp-3)}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  [data-reveal]{opacity:1;transform:none}
+}
+@media (prefers-reduced-transparency:reduce){
+  .legal,.chip,.val-card,.tag{backdrop-filter:none;-webkit-backdrop-filter:none;background:var(--ink-700)}
+}
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a href="#inicio" aria-label="Potens Wealth, início"><img src="potens-wealth-logo-branco.png" alt="Potens Wealth" width="120" height="48"></a>
+    <nav aria-label="Principal">
+      <ul>
+        <li><a href="#vidas">Sua vida</a></li>
+        <li><a href="#estrategias">Estratégias</a></li>
+        <li><a href="#metodo">Método</a></li>
+        <li><a href="#valores">Valores</a></li>
+        <li><a href="#sobre">Sobre</a></li>
+      </ul>
+    </nav>
+    <a class="btn btn-accent" href="https://wa.me/5511997574995?text=Ol%C3%A1%2C%20Suellen!%20Vim%20pelo%20site%20da%20Potens%20Wealth%20e%20gostaria%20de%20conversar." target="_blank" rel="noopener">Falar no WhatsApp</a>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="inicio">
+  <div id="gl" aria-label="Cristal tridimensional. Arraste para girar."></div>
+  <div class="wrap hero-in">
+    <h1>O patrimônio é a ferramenta. <span>A vida é o objetivo.</span></h1>
+    <p class="hero-sub">Planejamento patrimonial com linguagem clara e visão de longo prazo, feito para o seu conjunto, não para um produto.</p>
+    <div class="hero-cta">
+      <a class="btn btn-accent" href="https://wa.me/5511997574995?text=Ol%C3%A1%2C%20Suellen!%20Vim%20pelo%20site%20da%20Potens%20Wealth%20e%20gostaria%20de%20conversar." target="_blank" rel="noopener">Falar no WhatsApp
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <span class="drag-hint"><svg viewBox="0 0 40 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2 6h36M32 2l6 4-6 4"/></svg>Arraste o cristal</span>
+    </div>
+  </div>
+  <div class="legal">
+    <div class="wrap">
+      <p>A Potens Wealth integra o ecossistema da AWT Alliance S.A. e atua em educação financeira e planejamento financeiro e patrimonial. Serviços sujeitos a regulação são prestados pelas empresas do AWT Group devidamente habilitadas para cada atividade. A administração e gestão de carteiras de valores mobiliários é realizada pela AWT Consultoria e Administração de Valores Mobiliários Ltda., CNPJ 35.137.445/0001-00, registrada perante a CVM.</p>
+      <p>Consulte os Avisos Legais e Regulatórios do AWT Group: <a href="https://www.awtgroup.com.br" target="_blank" rel="noopener">www.awtgroup.com.br</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="sec belt" id="vidas" aria-labelledby="t-vidas">
+  <div class="wrap">
+    <div class="belt-head">
+      <div>
+        <p class="eyebrow" data-reveal>Para que serve o planejamento</p>
+        <h2 id="t-vidas" data-reveal style="margin-top:var(--sp-4);max-width:16ch">A vida que você quer ter, no centro do plano.</h2>
+      </div>
+    </div>
+    <div class="belt-stage" id="belt" role="group" aria-label="Momentos de vida. Arraste para os lados para navegar.">
+      <figure class="slide" data-sw="var(--sw-1)" data-line="Uma renda previsível para viver no seu ritmo, sem depender de uma única fonte.">
+        <img src="img/praia-caminhada.jpg" alt="Mulher caminhando descalça na praia ao entardecer" width="1600" height="1067" loading="lazy"><figcaption>Renda para viver bem</figcaption></figure>
+      <figure class="slide" data-sw="var(--sw-2)" data-line="Aposentadoria organizada desde hoje, com previdência e longevidade financeira no plano.">
+        <img src="img/trilha-nascer-do-sol.jpg" alt="Caminhante em uma trilha ao nascer do sol" width="1600" height="1067" loading="lazy"><figcaption>Aposentadoria organizada</figcaption></figure>
+      <figure class="slide" data-sw="var(--sw-3)" data-line="Sucessão encaminhada para que a mesa continue cheia entre gerações.">
+        <img src="img/cozinha.jpg" alt="Ingredientes e utensílios sobre uma bancada de madeira" width="1600" height="1058" loading="lazy"><figcaption>Família e legado</figcaption></figure>
+      <figure class="slide" data-sw="var(--sw-4)" data-line="Organização patrimonial internacional para quem pensa além das fronteiras.">
+        <img src="img/vela-lago.jpg" alt="Veleiro ancorado em águas azuis sob céu aberto" width="1600" height="899" loading="lazy"><figcaption>Liberdade para ir além</figcaption></figure>
+      <figure class="slide" data-sw="var(--sw-5)" data-line="Todo o conjunto sob um só olhar, e tempo livre para o que você gosta.">
+        <img src="img/piano-partitura.jpg" alt="Partitura aberta sobre um piano" width="1600" height="1067" loading="lazy"><figcaption>Tempo para o que importa</figcaption></figure>
+      <figure class="slide" data-sw="var(--sw-6)" data-line="Liquidez e planejamento para os próximos projetos e recomeços.">
+        <img src="img/lavanda-campo.jpg" alt="Campo de lavanda em flor" width="1600" height="1063" loading="lazy"><figcaption>Novos projetos</figcaption></figure>
+    </div>
+    <div class="belt-cap">
+      <p id="belt-line" aria-live="polite"></p>
+      <div class="belt-nav" id="belt-nav" aria-label="Escolher momento"></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec light esp" id="estrategias" aria-labelledby="t-esp">
+  <div class="wrap">
+    <h2 id="t-esp" class="head" data-reveal>Uma única estratégia de planejamento</h2>
+    <p class="lead" data-reveal>Cada necessidade patrimonial no mesmo desenho, com acesso a soluções especializadas de instituições habilitadas do AWT Group.</p>
+    <div class="bento">
+      <article class="cell big" data-reveal>
+        <img src="img/lavanda-entardecer.jpg" alt="Flores de lavanda em desfoque ao entardecer" width="1600" height="1067" loading="lazy">
+        <h3>Planejamento para investimentos</h3>
+        <p>Estratégias para acumular, proteger e multiplicar seu patrimônio.</p>
+        <div class="chips"><span class="chip">Renda Fixa</span><span class="chip">Renda Variável</span><span class="chip">Multimercado</span><span class="chip">Crédito Privado</span></div>
+      </article>
+      <article class="cell" data-reveal style="--d:80ms">
+        <img src="img/livro-janela.jpg" alt="Livro sobre uma mesa ao lado de uma janela" width="1600" height="1063" loading="lazy">
+        <h3>Previdência</h3>
+        <p>Estratégias para conquistar eficiência tributária e sucessória.</p>
+      </article>
+      <article class="cell" data-reveal style="--d:160ms">
+        <img src="img/veleiros-horizonte.jpg" alt="Veleiros distantes em um lago sob montanhas nubladas" width="1600" height="1067" loading="lazy">
+        <h3>Internacional / Offshore</h3>
+        <p>Estratégias para diversificação geográfica e proteção em moeda forte.</p>
+      </article>
+      <article class="cell wide" data-reveal style="--d:120ms">
+        <img src="img/jardim-maos.jpg" alt="Mãos segurando pétalas secas de flores" width="1600" height="1067" loading="lazy" style="object-position:center 35%">
+        <h3>Sucessório e Holding</h3>
+        <p>Estratégias para desenhar estruturas societárias e perpetuar legado.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="sec met" id="metodo" aria-labelledby="t-met">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Como trabalhamos</p>
+    <h2 id="t-met" data-reveal style="margin-top:var(--sp-4);max-width:18ch">Da conversa ao acompanhamento.</h2>
+    <div class="strips" id="strips">
+      <button class="strip on" aria-expanded="true"><img src="img/montanha.jpg" alt="Grupo de pessoas caminhando em uma colina ao amanhecer" width="1600" height="1067" loading="lazy" style="object-position:20% 50%"><h3>Conversar</h3><p>Entendemos sua rotina, sua família e o que você quer construir, em linguagem simples e sem pressa.</p></button>
+      <button class="strip" aria-expanded="false"><img src="img/cozinha.jpg" alt="Bancada de cozinha com ingredientes" width="1600" height="1058" loading="lazy" style="object-position:60% 50%"><h3>Mapear</h3><p>Reunimos o que está espalhado entre bancos e corretoras em uma visão única do seu patrimônio.</p></button>
+      <button class="strip" aria-expanded="false"><img src="img/piano-partitura.jpg" alt="Partitura sobre um piano" width="1600" height="1067" loading="lazy" style="object-position:70% 50%"><h3>Planejar</h3><p>Desenhamos o caminho com objetivos, prazos e riscos considerados, sempre com visão de longo prazo.</p></button>
+      <button class="strip" aria-expanded="false"><img src="img/praia-caminhada.jpg" alt="Caminhada na praia ao entardecer" width="1600" height="1067" loading="lazy" style="object-position:75% 50%"><h3>Acompanhar</h3><p>Conectamos você às instituições habilitadas e acompanhamos cada etapa com atendimento pessoal.</p></button>
+    </div>
+  </div>
+</section>
+
+<section class="sec light cmp" id="visao" aria-labelledby="t-cmp">
+  <div class="wrap cmp-grid">
+    <div>
+      <h2 id="t-cmp" data-reveal>Do patrimônio espalhado ao conjunto sob um só olhar.</h2>
+      <p class="lead" data-reveal>Arraste a linha para ver a diferença entre decisões isoladas e um plano que enxerga tudo junto.</p>
+    </div>
+    <div class="cmp-box" id="cmp" style="--pos:50%" role="img" aria-label="Comparação: patrimônio espalhado à esquerda, patrimônio organizado à direita. Arraste para comparar.">
+      <div class="layer order">
+        <img src="img/montanha.jpg" alt="" width="1600" height="1067" loading="lazy">
+        <span class="tag" style="left:54%;top:16%">Previdência</span>
+        <span class="tag" style="left:66%;top:28%">Imóveis</span>
+        <span class="tag" style="left:54%;top:40%">Renda Fixa</span>
+        <span class="tag" style="left:66%;top:52%">Exterior</span>
+        <span class="tag" style="left:54%;top:64%">Seguros</span>
+        <span class="cmp-label r">Visão do conjunto</span>
+      </div>
+      <div class="layer chaos">
+        <img src="img/montanha.jpg" alt="" width="1600" height="1067" loading="lazy">
+        <span class="tag chaos-tag" style="left:6%;top:12%;transform:rotate(-8deg)">Banco A</span>
+        <span class="tag chaos-tag" style="left:22%;top:34%;transform:rotate(6deg)">Corretora B</span>
+        <span class="tag chaos-tag" style="left:4%;top:50%;transform:rotate(-4deg)">Previdência</span>
+        <span class="tag chaos-tag" style="left:28%;top:66%;transform:rotate(9deg)">Imóveis</span>
+        <span class="tag chaos-tag" style="left:12%;top:78%;transform:rotate(-7deg)">Exterior</span>
+        <span class="cmp-label l">Espalhado</span>
+      </div>
+      <div class="handle"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></i></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec val" id="valores" aria-labelledby="t-val">
+  <div class="wrap val-grid">
+    <div>
+      <h2 id="t-val" class="sr" style="position:absolute;left:-9999px">Valores</h2>
+      <ul id="vals">
+        <li class="on"><button>Clareza</button></li>
+        <li><button>Rigor</button></li>
+        <li><button>Transparência</button></li>
+        <li><button>Discrição</button></li>
+        <li><button>Longo prazo</button></li>
+      </ul>
+    </div>
+    <div class="val-card" data-reveal>
+      <h3 id="val-t">Clareza</h3>
+      <p id="val-p">Cada decisão explicada em linguagem simples, sem jargão e sem letra miúda.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec light about" id="sobre" aria-labelledby="t-sobre">
+  <div class="wrap about-grid">
+    <div data-reveal>
+      <figure class="portrait">
+        <img src="img/suellen-pinto.jpg" alt="Suellen Andrade Pinto, Banker da Potens Wealth, em retrato corporativo" width="1181" height="1331" loading="lazy">
+        <figcaption class="badge"><b>5</b><span>anos de experiência no setor</span></figcaption>
+      </figure>
+    </div>
+    <div>
+      <p class="eyebrow" style="color:var(--brand-soft)" data-reveal>Quem cuida do seu plano</p>
+      <h2 id="t-sobre" data-reveal style="margin-top:var(--sp-4)">Suellen Andrade Pinto, Banker da Potens Wealth.</h2>
+      <p class="lead" data-reveal style="color:var(--ink-body)">Atendimento pessoal e acompanhamento próximo, para organizar o financeiro pessoal e familiar em torno dos seus objetivos.</p>
+      <ul class="pill-list">
+        <li data-reveal><b>Planejamento financeiro focado nos objetivos</b>Do orçamento da família à sucessão, tudo parte do que você quer viver.</li>
+        <li data-reveal style="--d:80ms"><b>Linguagem clara, relação de longo prazo</b>Explicação direta em cada etapa, com discrição e transparência.</li>
+        <li data-reveal style="--d:160ms"><b>Estrutura de parceiros habilitados</b>Soluções regulamentadas são executadas por empresas e profissionais habilitados do AWT Group.</li>
+      </ul>
+      <div class="who" data-reveal><span>Profissionais de saúde</span><span>Empresários</span><span>Advogados</span><span>Famílias</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec cta" id="contato" aria-labelledby="t-cta">
+  <div class="wrap">
+    <h2 id="t-cta" data-reveal>Vamos organizar o patrimônio que sustenta a sua vida?</h2>
+    <div class="row" data-reveal>
+      <a class="btn btn-accent" href="https://wa.me/5511997574995?text=Ol%C3%A1%2C%20Suellen!%20Vim%20pelo%20site%20da%20Potens%20Wealth%20e%20gostaria%20de%20conversar." target="_blank" rel="noopener">Falar no WhatsApp
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="mail" href="mailto:suellencna@gmail.com">suellencna@gmail.com</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <img src="potens-wealth-logo-branco.png" alt="Potens Wealth" width="95" height="38">
+      <p>Escritório Wealth Powered by AWT. Planejamento financeiro e patrimonial.</p>
+      <p>Suellen Andrade Pinto, Banker. <a href="https://wa.me/5511997574995" target="_blank" rel="noopener">+55 (11) 99757-4995</a></p>
+    </div>
+    <p><a href="https://www.awtgroup.com.br" target="_blank" rel="noopener">Avisos Legais e Regulatórios do AWT Group</a></p>
+  </div>
+</footer>
+
+<script>
+/* header condense */
+(function(){var n=document.getElementById('nav');var io=new IntersectionObserver(function(e){n.classList.toggle('solid',!e[0].isIntersecting)},{rootMargin:'-80px 0px 0px 0px'});io.observe(document.querySelector('.hero'));})();
+/* reveals */
+(function(){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12,rootMargin:'0px 0px -8% 0px'});document.querySelectorAll('[data-reveal]').forEach(function(el){io.observe(el)});})();
+
+/* BELT: drag, infinite loop, auto-advance, background colour swap */
+(function(){
+  var stage=document.getElementById('belt'),slides=[].slice.call(stage.querySelectorAll('.slide')),N=slides.length;
+  var line=document.getElementById('belt-line'),nav=document.getElementById('belt-nav'),sec=document.getElementById('vidas');
+  var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var p=0,target=0,drag=false,sx=0,sp=0,lastX=0,vel=0,last=performance.now(),idle=0,shown=-1,visible=true;
+  var dots=slides.map(function(s,i){var b=document.createElement('button');b.setAttribute('aria-label','Momento '+(i+1));b.addEventListener('click',function(){var cur=Math.round(p),d=((i-cur)%N+N)%N;if(d>N/2)d-=N;target=cur+d;idle=0});nav.appendChild(b);return b});
+  function step(){return Math.min(window.innerWidth*.3,400)*.62}
+  function render(){
+    var st=step();
+    slides.forEach(function(s,i){
+      var d=((i-p)%N+N)%N;if(d>N/2)d-=N;var a=Math.abs(d);
+      var x=d*st*(1+Math.max(0,a-1)*.02);
+      s.style.transform='translate3d('+x+'px,0,'+(-a*140)+'px) rotateY('+(-d*16)+'deg) scale('+(1-Math.min(a,3)*.07)+')';
+      s.style.opacity=a>2.7?0:1-a*.2;
+      s.style.zIndex=Math.round(100-a*10);
+      s.style.pointerEvents=a>2.7?'none':'auto';
+    });
+    var idx=((Math.round(p)%N)+N)%N;
+    if(idx!==shown){shown=idx;
+      line.style.opacity=0;setTimeout(function(){line.textContent=slides[idx].dataset.line;line.style.opacity=1},220);
+      sec.style.setProperty('--swap',slides[idx].dataset.sw);
+      dots.forEach(function(b,i){b.setAttribute('aria-current',i===idx)});
+    }
+  }
+  function tick(now){
+    var dt=Math.min(now-last,50);last=now;
+    if(visible){
+      if(!drag){
+        idle+=dt;
+        if(!reduce&&idle>3400){target=Math.round(p)+1;idle=0}
+        p+=(target-p)*Math.min(1,dt*.0055);
+      }
+      render();
+    }
+    requestAnimationFrame(tick);
+  }
+  stage.addEventListener('pointerdown',function(e){drag=true;sx=e.clientX;lastX=sx;sp=p;vel=0;stage.classList.add('drag');stage.setPointerCapture(e.pointerId)});
+  stage.addEventListener('pointermove',function(e){if(!drag)return;p=sp-(e.clientX-sx)/step();vel=(lastX-e.clientX)/step();lastX=e.clientX;target=p});
+  function up(){if(!drag)return;drag=false;stage.classList.remove('drag');target=Math.round(p+vel*6);idle=0}
+  stage.addEventListener('pointerup',up);stage.addEventListener('pointercancel',up);
+  new IntersectionObserver(function(e){visible=e[0].isIntersecting}).observe(stage);
+  render();requestAnimationFrame(tick);
+})();
+
+/* METHOD strips */
+(function(){
+  var strips=[].slice.call(document.querySelectorAll('#strips .strip')),cur=0,hold=false,box=document.getElementById('strips');
+  function set(i){cur=i;strips.forEach(function(s,k){var on=k===i;s.classList.toggle('on',on);s.setAttribute('aria-expanded',on)})}
+  strips.forEach(function(s,i){['mouseenter','focus','click'].forEach(function(ev){s.addEventListener(ev,function(){set(i)})})});
+  box.addEventListener('mouseenter',function(){hold=true});box.addEventListener('mouseleave',function(){hold=false});
+  var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  if(!reduce)setInterval(function(){if(!hold)set((cur+1)%strips.length)},4200);
+})();
+
+/* COMPARE: drag, oscillates when released */
+(function(){
+  var box=document.getElementById('cmp'),pos=50,drag=false,phase=0,last=performance.now(),visible=false,reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  function set(v){pos=Math.max(4,Math.min(96,v));box.style.setProperty('--pos',pos+'%')}
+  function at(e){var r=box.getBoundingClientRect();return (e.clientX-r.left)/r.width*100}
+  box.addEventListener('pointerdown',function(e){drag=true;box.setPointerCapture(e.pointerId);set(at(e))});
+  box.addEventListener('pointermove',function(e){if(drag)set(at(e))});
+  function up(){if(!drag)return;drag=false;phase=Math.asin(Math.max(-1,Math.min(1,(pos-50)/40)))}
+  box.addEventListener('pointerup',up);box.addEventListener('pointercancel',up);
+  new IntersectionObserver(function(e){visible=e[0].isIntersecting}).observe(box);
+  function tick(now){var dt=now-last;last=now;if(visible&&!drag&&!reduce){phase+=dt*.0007;set(50+40*Math.sin(phase))}requestAnimationFrame(tick)}
+  requestAnimationFrame(tick);
+})();
+
+/* VALUES: hover or auto, colour swap */
+(function(){
+  var data=[['Clareza','Cada decisão explicada em linguagem simples, sem jargão e sem letra miúda.'],['Rigor','Critério e método do planejamento à execução, com parceiros habilitados em cada atividade.'],['Transparência','Você sabe quem faz o quê e como cada serviço é prestado, antes de decidir.'],['Discrição','Sua história e seus números ficam entre nós. Relacionamento reservado, sem exposição.'],['Longo prazo','Uma relação construída ao longo dos anos, não uma venda de produto.']];
+  var sw=['var(--sw-1)','var(--sw-4)','var(--sw-3)','var(--sw-6)','var(--sw-5)'];
+  var lis=[].slice.call(document.querySelectorAll('#vals li')),sec=document.getElementById('valores'),t=document.getElementById('val-t'),pp=document.getElementById('val-p'),cur=0,hold=false;
+  function set(i){cur=i;lis.forEach(function(l,k){l.classList.toggle('on',k===i)});t.textContent=data[i][0];pp.textContent=data[i][1];sec.style.setProperty('--swap',sw[i])}
+  lis.forEach(function(l,i){['mouseenter','focusin','click'].forEach(function(ev){l.addEventListener(ev,function(){hold=true;set(i)})});l.addEventListener('mouseleave',function(){hold=false})});
+  if(!matchMedia('(prefers-reduced-motion:reduce)').matches)setInterval(function(){if(!hold)set((cur+1)%lis.length)},3600);
+  set(0);
+})();
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+const hero=document.querySelector('.hero'),host=document.getElementById('gl');
+const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+let renderer;
+try{renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'})}catch(e){hero.classList.add('nogl')}
+if(renderer){
+  renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));
+  host.appendChild(renderer.domElement);
+  const scene=new THREE.Scene();
+  const camera=new THREE.PerspectiveCamera(36,1,.1,50);camera.position.z=8;
+
+  /* background: domain-warped violet field */
+  const bgMat=new THREE.ShaderMaterial({
+    depthTest:false,depthWrite:false,
+    uniforms:{t:{value:0},res:{value:new THREE.Vector2(1,1)},tilt:{value:new THREE.Vector2(0,0)},
+      c0:{value:new THREE.Color(0x170838)},c1:{value:new THREE.Color(0x420e81)},c2:{value:new THREE.Color(0x7a52d6)},c3:{value:new THREE.Color(0xdff26b)}},
+    vertexShader:'void main(){gl_Position=vec4(position.xy,0.,1.);}',
+    fragmentShader:`precision highp float;uniform float t;uniform vec2 res;uniform vec2 tilt;uniform vec3 c0,c1,c2,c3;
+    float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+    float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h(i),h(i+vec2(1,0)),f.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x),f.y);}
+    float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<5;i++){v+=a*n(p);p=p*2.02+vec2(1.7,9.2);a*=.5;}return v;}
+    void main(){
+      vec2 uv=gl_FragCoord.xy/res;vec2 p=(uv-.5)*vec2(res.x/res.y,1.)*2.3+tilt*.4;
+      vec2 q=vec2(fbm(p+t*.05),fbm(p+vec2(5.2,1.3)-t*.04));
+      vec2 r=vec2(fbm(p+3.*q+vec2(1.7,9.2)+t*.06),fbm(p+3.*q+vec2(8.3,2.8)-t*.05));
+      float f=fbm(p+3.*r);
+      vec3 c=mix(c0,c1,clamp(f*1.7,0.,1.));
+      c=mix(c,c2,clamp(length(q)*.85,0.,1.)*.5);
+      c=mix(c,c3,smoothstep(.8,.97,f)*.22);
+      c=mix(c,c0*.7,(1.-uv.x)*.5);
+      c*=mix(.7,1.,smoothstep(0.,.55,uv.y));
+      gl_FragColor=vec4(c,1.);}`
+  });
+  const bg=new THREE.Mesh(new THREE.PlaneGeometry(2,2),bgMat);bg.frustumCulled=false;bg.renderOrder=-1;scene.add(bg);
+
+  /* crystal: faceted amethyst, per-face colour */
+  const geo=new THREE.IcosahedronGeometry(1.55,1).toNonIndexed();
+  const pal=[0x420e81,0x5d27a8,0x7a52d6,0xb59bff,0x2f0e6b,0x8c6be0].map(c=>new THREE.Color(c));
+  const cols=new Float32Array(geo.attributes.position.count*3);
+  for(let f=0;f<geo.attributes.position.count/3;f++){const c=pal[Math.floor(Math.random()*pal.length)];for(let v=0;v<3;v++){cols[(f*3+v)*3]=c.r;cols[(f*3+v)*3+1]=c.g;cols[(f*3+v)*3+2]=c.b}}
+  geo.setAttribute('color',new THREE.BufferAttribute(cols,3));
+  const mat=new THREE.MeshPhysicalMaterial({vertexColors:true,flatShading:true,metalness:.2,roughness:.22,clearcoat:1,clearcoatRoughness:.12});
+  const crystal=new THREE.Mesh(geo,mat);
+  const edges=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.IcosahedronGeometry(1.555,1)),new THREE.LineBasicMaterial({color:0xdccfff,transparent:true,opacity:.28}));
+  const group=new THREE.Group();group.add(crystal,edges);scene.add(group);
+  /* orbit ring with the "life" dot (echo of the logo) */
+  const orbit=new THREE.Group();
+  orbit.add(new THREE.Mesh(new THREE.TorusGeometry(2.45,.012,8,160),new THREE.MeshBasicMaterial({color:0xdccfff,transparent:true,opacity:.5})));
+  const dot=new THREE.Mesh(new THREE.SphereGeometry(.12,24,24),new THREE.MeshBasicMaterial({color:0xdff26b}));dot.position.set(2.45,0,0);orbit.add(dot);
+  orbit.rotation.set(1.15,.25,0);group.add(orbit);
+
+  scene.add(new THREE.AmbientLight(0x8a6bff,1.1));
+  const key=new THREE.DirectionalLight(0xffffff,3);key.position.set(3,4,6);scene.add(key);
+  const rim=new THREE.PointLight(0xdff26b,60,16);rim.position.set(-4,-2,3);scene.add(rim);
+  const fill=new THREE.PointLight(0xb59bff,80,18);fill.position.set(4,-3,2);scene.add(fill);
+
+  let w=1,h=1,vx=0,vy=0,drag=false,lx=0,ly=0;
+  function resize(){w=host.clientWidth;h=host.clientHeight;renderer.setSize(w,h,false);renderer.domElement.style.width='100%';renderer.domElement.style.height='100%';camera.aspect=w/h;camera.updateProjectionMatrix();
+    const v=renderer.getDrawingBufferSize(new THREE.Vector2());bgMat.uniforms.res.value.copy(v);
+    const mobile=w/h<.95;group.position.set(mobile?0:Math.min(2.3,w/h*1.2),mobile?2.1:.1,0);group.scale.setScalar(mobile?.62:.9)}
+  new ResizeObserver(resize).observe(host);resize();
+  host.addEventListener('pointerdown',e=>{drag=true;lx=e.clientX;ly=e.clientY;host.setPointerCapture(e.pointerId)});
+  host.addEventListener('pointermove',e=>{if(!drag)return;vy=(e.clientX-lx)*.0065;vx=(e.clientY-ly)*.0065;lx=e.clientX;ly=e.clientY;group.rotation.y+=vy;group.rotation.x=Math.max(-1.1,Math.min(1.1,group.rotation.x+vx));bgMat.uniforms.tilt.value.x=-vy*20});
+  const up=()=>{drag=false};host.addEventListener('pointerup',up);host.addEventListener('pointercancel',up);
+  let vis=true;new IntersectionObserver(e=>{vis=e[0].isIntersecting}).observe(hero);
+  const clock=new THREE.Clock();
+  (function loop(){
+    requestAnimationFrame(loop);if(!vis||document.hidden)return;
+    const dt=clock.getDelta(),t=clock.elapsedTime;
+    bgMat.uniforms.t.value=reduce?0:t;
+    if(!drag){const base=reduce?0:.28;vy+=(base*dt-vy)*.06;vx*=.92;group.rotation.y+=vy;group.rotation.x+=vx;bgMat.uniforms.tilt.value.x*=.95}
+    dot.position.set(Math.cos(t*.9)*2.45,Math.sin(t*.9)*2.45,0);
+    crystal.rotation.y=Math.sin(t*.2)*.1;
+    renderer.render(scene,camera);
+  })();
+}
+</script>
+</body>
+</html>
